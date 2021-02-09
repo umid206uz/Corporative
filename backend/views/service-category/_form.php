@@ -92,6 +92,7 @@ JS
         </div>
         <!-- nav-tabs-custom -->
     </div>
+    
     <?php if(empty($model->filename)):?>
     <?= $form->field($model, 'picture')->widget(FileInput::classname(), 
         [

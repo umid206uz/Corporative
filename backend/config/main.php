@@ -12,7 +12,21 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'rbac' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',
+	    'mainLayout' => '@app/views/layouts/main.php',
+            'controllerMap' => [
+                'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    /* 'userClassName' => 'app\models\User', */
+                    'idField' => 'id',
+                    'usernameField' => 'username',
+                ],
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -63,6 +77,10 @@ return [
             'rules' => [
             ],
         ],
+
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ]
         
     ],
     'controllerMap' => [
@@ -88,22 +106,22 @@ return [
                     )
                 ],
             ],
-
-
             'roots' => [
-                             [
-                                 'baseUrl'=>'@web',
-                                 'basePath'=>'@webroot',
-                                 'path' => 'files/global',
-                                 'name' => 'Global',
-                                 'plugin' => [
-                                        'Sanitizer' => array(
-                                                                'enable' => true,
-                                                                'targets'  => array('\\','/',':','*','?','"','<','>','|'), // target chars
-                                                                'replace'  => '_'    // replace to this
-                                                            )
-                                 ]
-                             ],
-                        ],],],
+                            [
+                                'baseUrl'=>'@web',
+                                'basePath'=>'@webroot',
+                                'path' => 'files/global',
+                                'name' => 'Global',
+                                'plugin' => [
+                                    'Sanitizer' => array(
+                                                            'enable' => true,
+                                                            'targets'  => array('\\','/',':','*','?','"','<','>','|'), // target chars
+                                                            'replace'  => '_'    // replace to this
+                                                        )
+                                ]
+                            ],
+            ],
+        ],
+    ],
     'params' => $params,
 ];
